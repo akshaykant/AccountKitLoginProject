@@ -7,4 +7,10 @@
     <string name="phone_label">Phone Number</string>
     <string name="email_label">Email</string>
     <string name="logout_label">Log Out</string>
+
+    <string name="FACEBOOK_APP_ID">ID</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">TOKEN</string>
+
+    //For login with email
+    <string name="ak_login_protocol_scheme">akID</string>
 </resources>

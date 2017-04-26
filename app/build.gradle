@@ -23,6 +23,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.3.1'
+    // library for parsing, formatting, and validating international phone numbers
     compile 'com.googlecode.libphonenumber:libphonenumber:8.4.0'
 
     compile 'com.facebook.android:account-kit-sdk:4.+'
