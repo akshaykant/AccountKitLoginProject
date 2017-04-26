@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.accountkit.AccessToken;
 import com.facebook.accountkit.AccountKit;
 import com.facebook.accountkit.AccountKitLoginResult;
@@ -13,10 +16,17 @@ import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
 import com.facebook.accountkit.ui.LoginType;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 public class LoginActivity extends AppCompatActivity {
 
     public static int APP_REQUEST_CODE = 1;
+
+    /*------------FB---------------*/
+    LoginButton loginButton;
+    CallbackManager callbackManager;
+    /*------------\FB---------------*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +34,50 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FontHelper.setCustomTypeface(findViewById(R.id.view_root));
 
+        /*------------FB---------------*/
+        loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
+        loginButton.setReadPermissions("email");
+
+        // Login Button callback registration
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                launchAccountActivity();
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // display error
+                String toastMessage = exception.getMessage();
+                Toast.makeText(LoginActivity.this, toastMessage, Toast.LENGTH_LONG).show();
+            }
+        });
+        /*------------\FB---------------*/
+
+
         // check for an existing access token
         AccessToken accessToken = AccountKit.getCurrentAccessToken();
-        if (accessToken != null) {
+        /*------------FB---------------*/
+        com.facebook.AccessToken loginToken = com.facebook.AccessToken.getCurrentAccessToken();
+        if (accessToken != null || loginToken != null) {
             // if previously logged in, proceed to the account activity
             launchAccountActivity();
         }
+        /*------------\FB---------------*/
     }
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+                /*------------FB---------------*/
+        // Forward result to the callback manager for Login Button
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+                /*------------\FB---------------*/
         // confirm that this response matches your request
         if (requestCode == APP_REQUEST_CODE) {
             AccountKitLoginResult loginResult = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);

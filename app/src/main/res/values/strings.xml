@@ -6,6 +6,7 @@
     <string name="id_label">Account ID</string>
     <string name="phone_label">Phone Number</string>
     <string name="email_label">Email</string>
+    <string name="name_label">Name</string>
     <string name="logout_label">Log Out</string>
 
     <string name="FACEBOOK_APP_ID">ID</string>
@@ -13,4 +14,7 @@
 
     //For login with email
     <string name="ak_login_protocol_scheme">akID</string>
+
+    //For login with FB
+    <string name="fb_login_protocol_scheme">fbID</string>
 </resources>
